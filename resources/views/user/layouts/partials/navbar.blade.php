@@ -326,7 +326,7 @@
 }
 </style>
 
-<div class="fixed top-0 left-0 w-full z-[9999] backdrop-blur-md 
+<div class="fixed top-0 left-0 w-full z-40 backdrop-blur-md 
             bg-gradient-to-r from-green-700/95 via-green-600/95 to-emerald-600/95 
             text-white border-b border-white/10 shadow-md">
     
