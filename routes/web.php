@@ -93,7 +93,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request) {
 
     Log::info('[EMAIL VERIFY] User verified and logged in', ['user_id' => $user->id]);
 
-    return redirect()->route('dashboard')->with('success', 'Email verified successfully!');
+    return redirect()->route('home')->with('success', 'Email verified successfully!');
 
 })->middleware(['signed'])->name('verification.verify');
 
