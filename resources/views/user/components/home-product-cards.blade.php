@@ -90,10 +90,10 @@
 
       <div class="flex items-center gap-3 mb-5">
         <span class="text-2xl font-bold text-[var(--primary-color)]">
-          ${{ $product->offer_price ?? $product->price }}
+          Rs{{ $product->offer_price ?? $product->price }}
         </span>
         @if($product->offer_price)
-          <span class="text-gray-500 text-lg line-through">${{ $product->price }}</span>
+          <span class="text-gray-500 text-lg line-through">Rs{{ $product->price }}</span>
           @if($product->offer_price && !empty($product->price) && $product->price > 0)
             @php
               $discount = round((($product->price - $product->offer_price) / $product->price) * 100);
