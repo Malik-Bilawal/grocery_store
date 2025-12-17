@@ -457,7 +457,7 @@
                          onclick="window.location='{{ route('product', ['category' => $category->slug]) }}'">
 
                         @if(!empty($category->image))
-                            <img src="{{ asset('storage/' . $category->image) }}"
+                            <img src="{{ asset('storage/app/public/' . $category->image) }}"
                                  alt="{{ $category->name }}"
                                  class="w-full h-full object-cover rounded-t-2xl">
                         @else
