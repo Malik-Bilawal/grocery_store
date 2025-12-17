@@ -138,7 +138,7 @@
                             PKR.{{ $product->offer_price ?? $product->price }}
                         </span>
                         @if($product->offer_price)
-                            <span class="text-gray-500 text-sm line-through ml-2">${{ $product->price }}</span>
+                            <span class="text-gray-500 text-sm line-through ml-2">Rs{{ $product->price }}</span>
                             {{-- <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded ml-2">
                                 {{ round((($product->price - $product->offer_price)/$product->price)*100) }}% OFF
                             </span> --}}

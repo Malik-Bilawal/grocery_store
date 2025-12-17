@@ -143,7 +143,7 @@ Update Status
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Total Amount:</span>
-                        <span class="font-medium text-blue-600">${{ $order->total ?? '0.00' }}</span>
+                        <span class="font-medium text-blue-600">Rs{{ $order->total ?? '0.00' }}</span>
                     </div>
                     @if(request()->ip())
                     <div class="flex justify-between">
@@ -251,9 +251,9 @@ Update Status
                         </div>
                     </td>
 
-                    <td class="p-3">${{ $item->price }}</td>
+                    <td class="p-3">Rs{{ $item->price }}</td>
                     <td class="p-3">{{ $item->quantity }}</td>
-                    <td class="p-3">${{ $item->total }}</td>
+                    <td class="p-3">Rs{{ $item->total }}</td>
 
                 </tr>
                 @endforeach
@@ -279,7 +279,7 @@ Update Status
                 @if($order->shipping)
                 <div>
                     <p class="text-gray-600 text-sm">Shipping</p>
-                    <p class="font-medium">${{ $order->shipping }}</p>
+                    <p class="font-medium">Rs{{ $order->shipping }}</p>
                 </div>
                 @endif
             </div>
@@ -298,7 +298,7 @@ Update Status
                 @if($order->tax)
                 <div class="flex justify-between items-center bg-red-50 px-3 py-2 rounded-md">
                     <span class="text-red-600 font-medium">Tax</span>
-                    <span class="text-red-600 font-semibold">${{ $order->tax }}</span>
+                    <span class="text-red-600 font-semibold">Rs{{ $order->tax }}</span>
                 </div>
                 @endif
 
@@ -312,7 +312,7 @@ Update Status
                 @if($order->total)
                 <div class="border-t mt-4 pt-4 flex justify-between items-center text-lg font-bold text-gray-800">
                     <span>Grand Total</span>
-                    <span>${{ $order->total }}</span>
+                    <span>Rs{{ $order->total }}</span>
                 </div>
                 @endif
 
