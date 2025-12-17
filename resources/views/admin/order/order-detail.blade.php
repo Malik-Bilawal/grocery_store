@@ -234,7 +234,7 @@ Update Status
 
                             @if($img)
                                 <img 
-                                    src="{{ asset('storage/' . $img) }}" 
+                                    src="{{ asset('storage/app/public/' . $img) }}" 
                                     alt="{{ $item->product->name }}" 
                                     class="w-12 h-12 rounded-md object-cover border"
                                 >

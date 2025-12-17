@@ -356,7 +356,7 @@ Pakistan</p>
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-16 gradient-bg">
+    {{-- <section class="py-16 gradient-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center text-[var(--primary-color)] mb-2">Frequently Asked Questions</h2>
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Quick answers to common questions. Can't find what you're looking for? <a href="#contact-form" class="text-[var(--accent-color)] font-medium">Send us a message</a>.</p>
@@ -407,7 +407,7 @@ Pakistan</p>
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Map & Store Info Section -->
     <section class="py-16 bg-white">

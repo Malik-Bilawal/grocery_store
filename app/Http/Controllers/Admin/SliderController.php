@@ -93,8 +93,6 @@ class SliderController extends Controller
 public function update(Request $request, HeroSlider $heroSlider)
 {
 
-    dd($request->all());
-
     $request->validate([
         'title' => 'nullable|string|max:255',
         'description' => 'nullable|string',

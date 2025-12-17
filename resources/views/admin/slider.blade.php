@@ -143,7 +143,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
     <div class="w-20 h-12 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
         @if ($slider->image)
-            <img src="{{ asset('storage/' . $slider->image) }}" 
+            <img src="{{ asset('storage/app/public/' . $slider->image) }}" 
                  alt="Slider Image" 
                  class="object-cover w-full h-full">
         @else
