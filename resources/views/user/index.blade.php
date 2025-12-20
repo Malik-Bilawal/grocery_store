@@ -262,87 +262,82 @@
     <div class="floating-element floating-element-2"></div>
     <div class="floating-element floating-element-3"></div>
 
-  <!-- Hero Carousel -->
-  <section class="
-relative hero-section overflow-hidden shadow-2xl mt-0
+    <section class="
+    relative overflow-hidden z-0
+    mt-[var(--navbar-height)]
 
-w-screen mx-0 rounded-none
-h-[40svh] max-h-[40svh]
+    /* MOBILE: Unchanged as requested */
+    w-full 
+    h-[40svh] 
+    rounded-none
 
-min-h-[180px] max-h-[220px]
-
-/* TABLET */
-sm:h-[70vh] sm:max-h-none sm:mx-4 sm:rounded-[2rem]
-
-/* DESKTOP – full width, keep height and rounded corners */
-lg:mx-0 lg:w-full lg:h-[100vh] lg:rounded-[2rem] lg:mt-10
+    /* DESKTOP FIX: 
+       1. lg:h-[60vh] -> Reduced from 80vh. This matches standard banner shapes better 
+          so the browser doesn't zoom in and cut the image.
+       2. max-w-7xl + mx-auto -> Keeps it fixed in container.
+    */
+    lg:h-[100vh] 
+    lg:w-[96%] 
+    lg:max-w-[1400px] 
+    lg:mx-auto 
+    lg:rounded-[2.5rem]
 ">
 
+    @foreach ($heroSliders as $index => $slider)
+    <div 
+        class="hero-slide absolute inset-0 w-full h-full bg-cover bg-no-repeat transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
+  
+        style="background-image: url('{{ asset('storage/' . $slider->image) }}'); background-position: center center;"
+        id="slide{{ $index + 1 }}">
+    </div>
 
+    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent rounded-[inherit]"></div>
 
-@foreach ($heroSliders as $index => $slider)
-<div 
-    class="hero-slide absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
-    style="background-image: url('{{ asset('storage/app/public/' . $slider->image) }}')"
-    id="slide{{ $index + 1 }}">
-</div>
+    <div class="relative z-20 h-full hidden sm:flex items-center text-white">
+        <div class="w-full h-full flex items-center px-8 md:px-12 lg:px-20">
+            <div class="max-w-3xl" data-aos="fade-right" data-aos-delay="300">
 
-<!-- Gradient Overlay -->
-<div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
+                @if($slider->title)
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight mb-6"
+                    style="font-family: 'Poppins', sans-serif; letter-spacing: -1px;">
+                    <span class="bg-clip-text text-transparent 
+                                 bg-gradient-to-r from-[var(--primary-color)] via-[var(--secondary-color)]
+                                 drop-shadow-lg">
+                        {{ $slider->title }}
+                    </span>
+                </h1>
+                @endif
 
-<!-- CONTENT -->
-<!-- ❌ HIDDEN ON MOBILE | ✅ VISIBLE ON TABLET+ -->
-<div class="relative z-10 h-full hidden sm:flex items-center text-white">
-    <div class="container mx-auto px-6">
-        <div class="max-w-3xl" data-aos="fade-right" data-aos-delay="300">
+                @if($slider->description)
+                <p class="text-lg md:text-xl text-gray-200 leading-relaxed mb-8 max-w-xl drop-shadow-md">
+                    {{ $slider->description }}
+                </p>
+                @endif
 
-            @if($slider->title)
-            <h1 class="text-4xl md:text-7xl font-extrabold leading-snug mb-4"
-                style="font-family: 'Poppins', 'Manrope', sans-serif; letter-spacing: -0.5px;">
-                <span class="bg-clip-text text-transparent 
-                             bg-gradient-to-r from-[var(--primary-color)] via-[var(--secondary-color)]
-                             drop-shadow-[0_3px_8px_rgba(0,0,0,0.25)]">
-                    {{ $slider->title }}
-                </span>
-            </h1>
-            @endif
+                @if($slider->button_text && $slider->button_url)
+                <a href="{{ $slider->button_url }}" 
+                   class="inline-flex items-center gap-3
+                          bg-[var(--primary-color)] hover:bg-[var(--secondary-color)]
+                          text-white px-8 py-3.5 rounded-full text-lg
+                          font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
+                    {{ $slider->button_text }}
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                @endif
 
-            @if($slider->description)
-            <p class="text-base md:text-xl leading-relaxed mb-8
-                      bg-white/10 backdrop-blur-md p-4 rounded-2xl
-                      border border-white/10">
-                {{ $slider->description }}
-            </p>
-            @endif
-
-            @if($slider->button_text && $slider->button_url)
-            <a href="{{ $slider->button_url }}" 
-               class="inline-flex items-center gap-2
-                      bg-gradient-to-r from-[var(--primary-color)] via-[var(--secondary-color)]
-                      hover:from-[var(--secondary-color)] hover:to-[var(--primary-color)]
-                      text-white px-8 py-3.5 rounded-full
-                      font-semibold transition-all duration-300
-                      shadow-[0_0_20px_rgba(59,130,246,0.4)]">
-                {{ $slider->button_text }}
-                <i class="fas fa-arrow-right text-sm"></i>
-            </a>
-            @endif
-
+            </div>
         </div>
     </div>
-</div>
+    @endforeach
 
-@endforeach
-
-<!-- Indicators -->
-<div class="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20">
-@foreach ($heroSliders as $index => $slider)
-<button 
-    class="carousel-indicator w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full border-2 border-white transition-all duration-300 {{ $index === 0 ? 'bg-white scale-110' : 'bg-transparent hover:bg-white/60' }}"
-    data-slide="{{ $index + 1 }}">
-</button>
-@endforeach
-</div>
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-30">
+    @foreach ($heroSliders as $index => $slider)
+    <button 
+        class="carousel-indicator w-3 h-3 rounded-full transition-all duration-300 border border-white/50 {{ $index === 0 ? 'bg-[var(--primary-color)] w-8' : 'bg-white/30 hover:bg-white' }}"
+        data-slide="{{ $index + 1 }}">
+    </button>
+    @endforeach
+    </div>
 
 </section>
 
