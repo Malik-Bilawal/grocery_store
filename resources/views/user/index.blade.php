@@ -286,7 +286,7 @@
             @foreach ($heroSliders as $index => $slider)
             <div
                 class="hero-slide absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
-                style="background-image: url('{{ asset('storage/' . $slider->image) }}');">
+                style="background-image: url('{{ asset('storage/app/public/' . $slider->image) }}');">
             </div>
 
         
