@@ -220,10 +220,10 @@
 
                     <!-- Additional Info -->
                     <div class="border-t border-gray-200 pt-4">
-                        <div class="flex items-center text-sm text-gray-600 mb-2">
+                        {{-- <div class="flex items-center text-sm text-gray-600 mb-2">
                             <i class="fas fa-truck mr-2 text-[var(--accent-color)]"></i>
                             <span>Free delivery on orders over 5000</span>
-                        </div>
+                        </div> --}}
                         {{-- <div class="flex items-center text-sm text-gray-600 mb-2">
                             <i class="fas fa-undo mr-2 text-[var(--accent-color)]"></i>
                             <span>30-day return policy</span>

@@ -335,9 +335,9 @@
                     text-[11px] md:text-sm font-semibold tracking-wide uppercase">
             
             <span class="flex items-center gap-2">
-                <span class="text-yellow-300">🔥</span>
+                {{-- <span class="text-yellow-300">🔥</span>
                 Free delivery on 5000 + shopping
-                        </span>
+                        </span> --}}
 
             <span class="w-1 h-1 rounded-full bg-white/40"></span>
 
@@ -346,15 +346,15 @@
 
             <span class="w-1 h-1 rounded-full bg-white/40"></span>
 
-            <span class="flex items-center gap-2">
+            {{-- <span class="flex items-center gap-2">
             Free delivery on 5000 + shopping
-            </span>
+            </span> --}}
 
             <span class="w-1 h-1 rounded-full bg-white/40"></span>
 
-            <span class="flex items-center gap-2">
+            {{-- <span class="flex items-center gap-2">
                 🚚 Free Delivery on Orders Above 5000
-            </span>
+            </span> --}}
         </div>
     </div>
 </div>
