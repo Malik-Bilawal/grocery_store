@@ -124,8 +124,7 @@
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preview</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hero Text</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
@@ -143,7 +142,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
     <div class="w-20 h-12 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
         @if ($slider->image)
-            <img src="{{ asset('storage/app/public/' . $slider->image) }}" 
+            <img src="{{ asset('storage/' . $slider->image) }}" 
                  alt="Slider Image" 
                  class="object-cover w-full h-full">
         @else
@@ -153,15 +152,6 @@
 </td>
 
 
-            <!-- Hero Text -->
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                {{ $slider->title ?? '—' }}
-            </td>
-
-            <!-- Description -->
-            <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                {{ $slider->description ?? '—' }}
-            </td>
 
             <!-- Position (optional) -->
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -193,12 +183,9 @@
     type="button"
     class="text-indigo-600 hover:text-indigo-900 mr-3 edit-slider-btn"
     data-id="{{ $slider->id }}"
-    data-title="{{ $slider->title }}"
-    data-description="{{ $slider->description }}"
-    data-button_text="{{ $slider->button_text }}"
     data-button_url="{{ $slider->button_url }}"
     data-status="{{ $slider->status }}"
-    data-image="{{ $slider->image ? asset('storage/app/public/'.$slider->image) : '' }}"
+    data-image="{{ $slider->image ? asset('storage/'.$slider->image) : '' }}"
 >
     <i class="fas fa-edit"></i>
 </button>
@@ -275,7 +262,7 @@
             <div class="mt-3">
                 <div class="flex justify-between items-center pb-3 border-b">
                     <h3 class="text-lg font-medium text-gray-900" id="modalTitle">Add New Slider</h3>
-                    <button  id="addCloseModal class="text-gray-400 hover:text-gray-500">
+                    <button  id="addCloseModal" class="text-gray-400 hover:text-gray-500">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -286,25 +273,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Form Inputs -->
         <div class="space-y-4">
-            <div>
-                <label for="sliderTitle" class="block text-sm font-medium text-gray-700">Hero Text</label>
-                <input 
-                    type="text" 
-                    id="sliderTitle" 
-                    name="title" 
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary" 
-                    placeholder="Enter hero text">
-            </div>
-
-            <div>
-                <label for="sliderDescription" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea 
-                    id="sliderDescription" 
-                    name="description" 
-                    rows="3" 
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary" 
-                    placeholder="Enter slider description"></textarea>
-            </div>
+           
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
@@ -327,16 +296,6 @@
                         <option value="0">Inactive</option>
                     </select>
                 </div>
-            </div>
-
-            <div>
-                <label for="buttonText" class="block text-sm font-medium text-gray-700">Button Text</label>
-                <input 
-                    type="text" 
-                    id="buttonText" 
-                    name="button_text"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary" 
-                    placeholder="e.g. Shop Now">
             </div>
 
             <div>
@@ -411,17 +370,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Left Inputs -->
                     <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Hero Text</label>
-                            <input type="text" name="title" id="editSliderTitle"
-                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea name="description"  id="editSliderDescription" rows="3"
-                                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></textarea>
-                        </div>
+                    
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -434,11 +383,7 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Button Text</label>
-                            <input type="text" name="button_text" id="editButtonText"
-                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
-                        </div>
+             
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Button Link</label>
@@ -544,18 +489,12 @@ const editForm = document.getElementById('editSliderForm');
 editButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const id = btn.dataset.id;
-        const title = btn.dataset.title;
-        const description = btn.dataset.description;
-        const buttonText = btn.dataset.buttonText || btn.dataset.button_text; // support both
         const buttonUrl = btn.dataset.buttonUrl || btn.dataset.button_url;
         const status = btn.dataset.status;
         const image = btn.dataset.image;
 
         // Fill form fields
         editForm.action = `/admin/hero-sliders/update/${id}`;
-        document.getElementById('editSliderTitle').value = title || '';
-        document.getElementById('editSliderDescription').value = description || '';
-        document.getElementById('editButtonText').value = buttonText || '';
         document.getElementById('editButtonLink').value = buttonUrl || '';
         document.getElementById('editSliderStatus').value = String(status ?? '0');
 

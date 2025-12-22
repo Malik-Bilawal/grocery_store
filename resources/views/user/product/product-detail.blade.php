@@ -92,10 +92,10 @@
                 <div class="image-gallery grid grid-cols-4 gap-2">
                     @foreach($product->images as $img)
                         <div class="cursor-pointer border-2 border-transparent hover:border-[var(--accent-color)] rounded-lg overflow-hidden">
-                            <img src="{{ asset('storage/app/public/' . $img->image_path) }}" 
+                            <img src="{{ asset('storage/' . $img->image_path) }}" 
                                  alt="{{ $product->name }}" 
                                  class="w-full h-20 object-cover"
-                                 onclick="document.getElementById('main-image').src='{{ asset('storage/app/public/' . $img->image_path) }}'">
+                                 onclick="document.getElementById('main-image').src='{{ asset('storage/' . $img->image_path) }}'">
                         </div>
                     @endforeach
                 </div>
