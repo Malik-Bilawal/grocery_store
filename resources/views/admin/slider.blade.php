@@ -142,7 +142,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
     <div class="w-20 h-12 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center">
         @if ($slider->image)
-            <img src="{{ asset('storage/' . $slider->image) }}" 
+            <img src="{{ asset('storage/app/public/' . $slider->image) }}" 
                  alt="Slider Image" 
                  class="object-cover w-full h-full">
         @else
@@ -185,7 +185,7 @@
     data-id="{{ $slider->id }}"
     data-button_url="{{ $slider->button_url }}"
     data-status="{{ $slider->status }}"
-    data-image="{{ $slider->image ? asset('storage/'.$slider->image) : '' }}"
+    data-image="{{ $slider->image ? asset('storage/app/public/'.$slider->image) : '' }}"
 >
     <i class="fas fa-edit"></i>
 </button>

@@ -272,7 +272,7 @@
     <div class="relative w-full mt-24" style="padding-top: 50%;">
         @foreach ($heroSliders as $index => $slider)
         <img
-            src="{{ asset('storage/' . $slider->image) }}"
+            src="{{ asset('storage/app/public/' . $slider->image) }}"
             class="absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
             alt="hero image"
         >
