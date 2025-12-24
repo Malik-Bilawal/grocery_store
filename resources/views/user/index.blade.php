@@ -268,30 +268,33 @@
     <div class="floating-element floating-element-2"></div>
     <div class="floating-element floating-element-3"></div>
     <section class="relative w-full mt-30">
-    @foreach ($heroSliders as $index => $slider)
-    <img
-        src="{{ asset('storage/' . $slider->image) }}"
-        class="w-full transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
-        style="object-fit: contain; height: auto;"
-        alt="hero image"
-    >
-    @endforeach
-
-    <!-- Overlay content -->
-    <div class="absolute top-0 left-0 w-full h-full z-20 flex items-center justify-center pointer-events-none">
-        <!-- Hero text/buttons here -->
-    </div>
-
-    <!-- Carousel indicators -->
-    <div class="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-30">
+    <!-- Slide container: fixed aspect ratio to keep height -->
+    <div class="relative w-full mt-24" style="padding-top: 50%;">
         @foreach ($heroSliders as $index => $slider)
-        <button
-            class="carousel-indicator w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full border-2 border-white transition-all duration-300 {{ $index === 0 ? 'bg-white scale-110' : 'bg-transparent hover:bg-white/60' }}"
-            data-slide="{{ $index + 1 }}">
-        </button>
+        <img
+            src="{{ asset('storage/' . $slider->image) }}"
+            class="absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
+            alt="hero image"
+        >
         @endforeach
+
+        <!-- Overlay content -->
+        <div class="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+            <!-- Hero text/buttons here -->
+        </div>
+
+        <!-- Carousel indicators -->
+        <div class="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-30">
+            @foreach ($heroSliders as $index => $slider)
+            <button
+                class="carousel-indicator w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full border-2 border-white transition-all duration-300 {{ $index === 0 ? 'bg-white scale-110' : 'bg-transparent hover:bg-white/60' }}"
+                data-slide="{{ $index + 1 }}">
+            </button>
+            @endforeach
+        </div>
     </div>
 </section>
+
 
     <script>
 document.addEventListener('DOMContentLoaded', () => {
