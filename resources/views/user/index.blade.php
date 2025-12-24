@@ -238,7 +238,15 @@
     ::-webkit-scrollbar-thumb:hover {
         background: var(--primary-hover);
     }
-
+.custom-banner
+{
+    background-image: url('{{ asset('storage/app/public/' . $slider->image) }}');width: 100%;
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    background-attachment: fixed;
+}
     /* Responsive */
     @media (max-width: 768px) {
         .hero-title {
@@ -256,6 +264,10 @@
         .countdown-item {
             min-width: 60px;
             padding: 0.75rem;
+        }
+        .custom-banner
+        {
+            background-attachment:none;
         }
     }
 </style>
@@ -281,12 +293,20 @@
     lg:w-full
 ">
 
-        <div class="container mx-auto lg:max-w-[1400px] lg:rounded-[2.5rem] overflow-hidden relative h-full">
+        <div class="container mx-auto lg:max-w-[1400px] lg:rounded-[2.5rem] overflow-hidden relative h-full" style="    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    max-width: 100%;">
 
             @foreach ($heroSliders as $index => $slider)
             <div
-                class="hero-slide absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
-                style="background-image: url('{{ asset('storage/app/public/' . $slider->image) }}');">
+                class="hero-slide absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }} custom-banner"
+                style="background-image: url('{{ asset('storage/app/public/' . $slider->image) }}');width: 100%;
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    background-attachment: fixed;">
             </div>
 
         
