@@ -290,13 +290,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let sizeIndex = 0;
 
-// Function to add new size row
 window.addSize = function() {
     const container = document.getElementById('sizesContainer');
     const html = `
         <div class="flex gap-2 items-center mb-2">
             <input type="number" name="sizes[${sizeIndex}][size]" placeholder="Size in kg e.g. 0.25"
-                class="border px-2 py-1 rounded w-1/3 size-input" step="0.01" required>
+                class="border px-2 py-1 rounded w-1/3 size-input" step="0.0001" required>
 
             <input type="number" name="sizes[${sizeIndex}][price]" 
                 class="border px-2 py-1 rounded w-1/3 bg-gray-100 price-input" 
@@ -309,12 +308,10 @@ window.addSize = function() {
     attachRecalcHandlers();
 };
 
-// Function to remove a size row
 window.removeSize = function(el) {
     el.parentElement.remove();
 };
 
-// Function to recalculate prices
 function recalcPrices() {
     const defaultPrice = parseFloat(document.querySelector('input[name="price"]').value) || 0;
     const defaultWeight = parseFloat(document.querySelector('input[name="weight"]').value) || 1;
@@ -324,7 +321,7 @@ function recalcPrices() {
         const size = parseFloat(row.value) || 0;
         const priceInput = row.parentElement.querySelector('.price-input');
         const calculatedPrice = (defaultPrice / defaultWeight) * size;
-        priceInput.value = calculatedPrice ? calculatedPrice.toFixed(2) : '';
+        priceInput.value = calculatedPrice ? calculatedPrice.toFixed(4) : '';
     });
 }
 

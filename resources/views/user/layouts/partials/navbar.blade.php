@@ -1053,7 +1053,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             <div class="flex items-end mt-1 space-x-2">
                 <p class="text-primary font-black text-lg leading-none">
-                    $${product.offer_price ?? product.price}
+                    Rs. ${product.offer_price ?? product.price}
                 </p>
                 ${product.offer_price ? 
                     `<p class="text-gray-400 text-xs line-through font-medium mb-0.5">$${product.price}</p>` 
