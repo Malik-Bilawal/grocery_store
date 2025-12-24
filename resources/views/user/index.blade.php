@@ -238,15 +238,7 @@
     ::-webkit-scrollbar-thumb:hover {
         background: var(--primary-hover);
     }
-.custom-banner
-{
-    background-image: url('{{ asset('storage/app/public/' . $slider->image) }}');width: 100%;
-    background-size: contain;
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    background-attachment: fixed;
-}
+
     /* Responsive */
     @media (max-width: 768px) {
         .hero-title {
@@ -265,10 +257,6 @@
             min-width: 60px;
             padding: 0.75rem;
         }
-        .custom-banner
-        {
-            background-attachment:none;
-        }
     }
 </style>
 @endpush
@@ -279,52 +267,31 @@
     <div class="floating-element floating-element-1"></div>
     <div class="floating-element floating-element-2"></div>
     <div class="floating-element floating-element-3"></div>
-    <section class="
-    relative overflow-hidden z-0
-    mt-30
+    <section class="relative w-full mt-30">
+    @foreach ($heroSliders as $index => $slider)
+    <img
+        src="{{ asset('storage/' . $slider->image) }}"
+        class="w-full transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
+        style="object-fit: contain; height: auto;"
+        alt="hero image"
+    >
+    @endforeach
 
-    /* MOBILE */
-    w-full 
-    h-[40svh] 
-    rounded-none
+    <!-- Overlay content -->
+    <div class="absolute top-0 left-0 w-full h-full z-20 flex items-center justify-center pointer-events-none">
+        <!-- Hero text/buttons here -->
+    </div>
 
-    /* DESKTOP: container-limited */
-    lg:h-[90vh] 
-    lg:w-full
-">
-
-        <div class="container mx-auto lg:max-w-[1400px] lg:rounded-[2.5rem] overflow-hidden relative h-full" style="    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    max-width: 100%;">
-
-            @foreach ($heroSliders as $index => $slider)
-            <div
-                class="hero-slide absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }} custom-banner"
-                style="background-image: url('{{ asset('storage/app/public/' . $slider->image) }}');width: 100%;
-    background-size: contain;
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    background-attachment: fixed;">
-            </div>
-
-        
-
-
-            @endforeach
-
-            <div class="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20">
-                @foreach ($heroSliders as $index => $slider)
-                <button
-                    class="carousel-indicator w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full border-2 border-white transition-all duration-300 {{ $index === 0 ? 'bg-white scale-110' : 'bg-transparent hover:bg-white/60' }}"
-                    data-slide="{{ $index + 1 }}">
-                </button>
-                @endforeach
-            </div>
-
-        </div>
-    </section>
+    <!-- Carousel indicators -->
+    <div class="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-30">
+        @foreach ($heroSliders as $index => $slider)
+        <button
+            class="carousel-indicator w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full border-2 border-white transition-all duration-300 {{ $index === 0 ? 'bg-white scale-110' : 'bg-transparent hover:bg-white/60' }}"
+            data-slide="{{ $index + 1 }}">
+        </button>
+        @endforeach
+    </div>
+</section>
 
     <script>
 document.addEventListener('DOMContentLoaded', () => {
