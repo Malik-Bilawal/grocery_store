@@ -295,10 +295,19 @@ try {
 
         DB::commit();
 
-        $order->load('addresses'); 
-        Mail::to($validated['email'])->send(new OrderPlacedMail($order));
-        Mail::to('bilawal2407f@aptechgdn.net')->send(new AdminOrderAlertMail($order));
-        
+ 
+$order->load('addresses');
+
+try {
+    Mail::to($validated['email'])->send(new OrderPlacedMail($order));
+    Mail::to('team@grocerystationone.com.net')->send(new AdminOrderAlertMail($order));
+} catch (\Throwable $e) {
+    Log::error('Order mail failed', [
+        'order_id' => $order->id,
+        'error' => $e->getMessage(),
+    ]);
+}
+
         return redirect()->route('order.confirmation', ['order' => $order->id]);
 
     } catch (\Exception $e) {

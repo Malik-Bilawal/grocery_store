@@ -31,7 +31,7 @@
         @foreach($product->images as $index => $image)
           <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
             <img src="{{ asset('storage/app/public/' . $image->image_path) }}"
-                 class="d-block w-full h-[280px] object-cover transition-all duration-700 ease-in-out"
+                 class="d-block w-full  object-cover transition-all duration-700 ease-in-out"
                  alt="{{ $product->name }}">
           </div>
         @endforeach
