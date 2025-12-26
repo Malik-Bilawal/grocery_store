@@ -300,7 +300,7 @@ $order->load('addresses');
 
 try {
     Mail::to($validated['email'])->send(new OrderPlacedMail($order));
-    Mail::to('team@grocerystationone.com.net')->send(new AdminOrderAlertMail($order));
+    Mail::to('team@grocerystationone.com')->send(new AdminOrderAlertMail($order));
 } catch (\Throwable $e) {
     Log::error('Order mail failed', [
         'order_id' => $order->id,
