@@ -296,11 +296,14 @@ try {
         DB::commit();
 
  
-$order->load('addresses');
+$order->load('addresses', 'items.product.default_image');
 
 try {
-    Mail::to($validated['email'])->send(new OrderPlacedMail($order));
-    Mail::to('team@grocerystationone.com')->send(new AdminOrderAlertMail($order));
+    Mail::to($validated['email'])
+        ->queue(new OrderPlacedMail($order));
+
+    Mail::to('team@grocerystationone.com')
+        ->queue(new AdminOrderAlertMail($order));
 } catch (\Throwable $e) {
     Log::error('Order mail failed', [
         'order_id' => $order->id,
