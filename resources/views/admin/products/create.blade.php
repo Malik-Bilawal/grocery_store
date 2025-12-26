@@ -75,12 +75,12 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700">SKU</label>
-            <input type="text" name="sku" class="w-full border rounded px-3 py-2" placeholder="SKU">
+            <input type="text" name="sku" class="w-full border rounded px-3 py-2" placeholder="SKU" required>
         </div>
 
         <div class="md:col-span-2">
             <label class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea name="description" rows="3" class="w-full border rounded px-3 py-2" placeholder="Description"></textarea>
+            <textarea name="description" rows="3" class="w-full border rounded px-3 py-2" placeholder="Description" required></textarea>
         </div>
 
         <div>
@@ -117,7 +117,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700">Weight (kg)</label>
-            <input type="number" name="weight" class="w-full border rounded px-3 py-2" step="0.01">
+            <input type="number" name="weight" class="w-full border rounded px-3 py-2" step="0.01" required>
         </div>
 
         <div>
