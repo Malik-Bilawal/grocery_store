@@ -99,21 +99,26 @@
       </div>
 
       <div class="flex items-center gap-3 mb-5">
-        <span class="text-2xl font-bold text-[var(--primary-color)]">
-          Rs{{ $product->offer_price ?? $product->price }}
-        </span>
-        @if($product->offer_price)
-          <span class="text-gray-500 text-lg line-through">Rs{{ $product->price }}</span>
-          @if($product->offer_price && !empty($product->price) && $product->price > 0)
-            @php
-              $discount = round((($product->price - $product->offer_price) / $product->price) * 100);
-            @endphp
-            <span class="text-[var(--secondary-color)] text-xs font-bold bg-[var(--secondary-color)]/10 px-2 py-1 rounded-full">
-              {{ $discount }}% OFF
-            </span>
-          @endif
-        @endif
-      </div>
+  <span class="text-2xl font-bold text-[var(--primary-color)]">
+    Rs{{ number_format($product->offer_price ?? $product->price, 0) }}
+  </span>
+
+  @if($product->offer_price)
+    <span class="text-gray-500 text-lg line-through">
+      Rs. {{ number_format($product->price, 0) }}
+    </span>
+
+    @if($product->offer_price && !empty($product->price) && $product->price > 0)
+      @php
+        $discount = round((($product->price - $product->offer_price) / $product->price) * 100);
+      @endphp
+      <span class="text-[var(--secondary-color)] text-xs font-bold bg-[var(--secondary-color)]/10 px-2 py-1 rounded-full">
+        {{ $discount }}% OFF
+      </span>
+    @endif
+  @endif
+</div>
+
     </div>
 
     <div class="flex gap-3 mt-auto">
