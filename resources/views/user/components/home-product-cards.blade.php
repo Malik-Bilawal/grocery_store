@@ -56,7 +56,17 @@
 
   <div class="p-6 flex flex-col justify-between">
     <div>
-      <div class="text-gray-500 text-sm mb-1">{{ $product->category->name ?? 'Category' }}</div>
+    <div class="flex justify-between items-center mb-2">
+    <!-- Category on the left -->
+    <div class="text-gray-500 text-sm">
+      {{ $product->category->name ?? 'Category' }}
+    </div>
+
+    <!-- Weight on the right -->
+    <div class="text-gray-400 text-sm">
+      1 kg
+    </div>
+  </div>      
       <h3 class="text-lg font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-[var(--primary-color)] transition-colors">
         {{ $product->name }}
       </h3>

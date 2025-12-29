@@ -167,7 +167,7 @@
 @endpush
 
 @section("content")
-<div class="bg-gray-50">
+<div class="bg-gray-50 mt-16">
     <!-- Animated Background Elements -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div class="floating-element absolute top-1/4 left-10 w-20 h-20 bg-[var(--primary-color)] rounded-full opacity-10"></div>
