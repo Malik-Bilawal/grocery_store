@@ -80,7 +80,7 @@
 
         <div class="md:col-span-2">
             <label class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea name="description" rows="3" class="w-full border rounded px-3 py-2" placeholder="Description" required></textarea>
+            <textarea name="description" rows="3" value="---" class="w-full border rounded px-3 py-2" placeholder="Description" required></textarea>
         </div>
 
         <div>
