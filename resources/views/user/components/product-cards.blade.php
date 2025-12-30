@@ -1,5 +1,6 @@
 {{-- Load SweetAlert --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
 <div class="product-card-container">
     <div class="row"> 
@@ -8,9 +9,7 @@
             @php
                 $defaultImage = $product->images->where('is_default', 1)->first() ?? $product->images->first();
                 $hasSizes = $product->sizes->isNotEmpty();
-                // Format price for JS (no commas, just decimal)
                 $initialPriceJs = number_format($product->offer_price ?? $product->price, 2, '.', '');
-                // Format price for View
                 $initialPriceView = number_format($product->offer_price ?? $product->price, 2);
             @endphp
 
@@ -116,11 +115,7 @@
                                         </a>
                                     </div>
                                     <div class="col-12 col-sm-6">
-                                        {{-- 
-                                            UPDATED BUY BUTTON:
-                                            1. Used Class 'buy-now-btn' (NOT ID)
-                                            2. Added data attributes that we will read in JS
-                                        --}}
+                            
                                         <button class="btn btn-primary buy-now-btn w-100 py-2 fw-bold text-uppercase h-100 d-flex align-items-center justify-content-center text-white"
                                                 data-product-id="{{ $product->id }}"
                                                 data-price="{{ $initialPriceJs }}"

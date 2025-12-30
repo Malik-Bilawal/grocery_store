@@ -437,6 +437,11 @@
             });
         }
 
+        window.addEventListener('load', () => {
+  document.querySelector('.products-grid').style.opacity = '1';
+});
+
+
         // Initial load
         const savedCategory = localStorage.getItem('selectedCategory');
         if (savedCategory) {
@@ -454,6 +459,7 @@
         applyFilters();
     });
 
+    window.onload(applyFilters());
 
     // Initialize AOS
     if (typeof AOS !== 'undefined') {

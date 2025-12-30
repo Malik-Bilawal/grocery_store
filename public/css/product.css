@@ -478,6 +478,11 @@
     color: var(--text-on-primary);
 }
 
+.products-grid {
+    opacity: 0;
+  }
+  
+
 /* TWO CARDS PER ROW ON DESKTOP */
 .products-grid {
     display: grid;
