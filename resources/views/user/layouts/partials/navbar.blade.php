@@ -345,10 +345,10 @@
             imported items            </span>
 
             <span class="w-1 h-1 rounded-full bg-white/40">
-            Our Prices are literally lower as compare to stores</span>
+            </span>
 
     <span class="flex items-center gap-2">
-            Work on bulk qtys also
+       Our Prices are literally lower as compare to stores
             </span>
 
             <span class="w-1 h-1 rounded-full bg-white/40"></span>
