@@ -344,11 +344,12 @@
             <span class="flex items-center gap-2">
             imported items            </span>
 
-            <span class="w-1 h-1 rounded-full bg-white/40"></span>
+            <span class="w-1 h-1 rounded-full bg-white/40">
+            Our Prices are literally lower as compare to stores</span>
 
-            {{-- <span class="flex items-center gap-2">
-            Free delivery on 5000 + shopping
-            </span> --}}
+    <span class="flex items-center gap-2">
+            Work on bulk qtys also
+            </span>
 
             <span class="w-1 h-1 rounded-full bg-white/40"></span>
 
