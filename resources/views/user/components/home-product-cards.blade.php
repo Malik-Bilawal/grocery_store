@@ -64,7 +64,7 @@
 
     <!-- Weight on the right -->
     <div class="text-gray-400 text-sm">
-      1 kg
+    
     </div>
   </div>      
       <h3 class="text-lg font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-[var(--primary-color)] transition-colors">
@@ -100,12 +100,12 @@
 
       <div class="flex items-center gap-3 mb-5">
   <span class="text-2xl font-bold text-[var(--primary-color)]">
-    Rs{{ number_format($product->offer_price ?? $product->price, 0) }}
+    Rs {{ number_format($product->offer_price ?? $product->price, 0) }}/kg
   </span>
 
   @if($product->offer_price)
     <span class="text-gray-500 text-lg line-through">
-      Rs. {{ number_format($product->price, 0) }}
+      Rs. {{ number_format($product->price, 0) }}/kg
     </span>
 
     @if($product->offer_price && !empty($product->price) && $product->price > 0)
