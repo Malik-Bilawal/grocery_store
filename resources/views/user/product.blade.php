@@ -1221,13 +1221,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Filter Drawer Functionality
         const filterToggleBtn = document.getElementById('filter-toggle-btn');
         const filterDrawer = document.getElementById('filter-drawer');
         const filterOverlay = document.getElementById('filter-overlay');
         const closeFilterDrawer = document.getElementById('close-filter-drawer');
 
-        // Toggle filter drawer
         if (filterToggleBtn && filterDrawer) {
             filterToggleBtn.addEventListener('click', function() {
                 filterDrawer.classList.add('active');
@@ -1294,12 +1292,140 @@
 
         let filters = {
             category_id: '',
-            min_price: 0,
-            max_price: 100,
+            min_price: {{ $minPrice }},
+            max_price: {{ $maxPrice }},
             ratings: [],
-            availability: ['in-stock'],
+            availability: [],  // Empty array means no availability filter
             page: 1
         };
+
+        // Function to reset all filters to default state
+        function resetAllFilters() {
+            // Clear all category selections
+            document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
+            const allCategoriesLink = document.querySelector('.category-link[data-id=""]');
+            if (allCategoriesLink) allCategoriesLink.classList.add('active');
+            
+            // Reset price to min/max from server
+            const minInput = document.querySelector('.min-price');
+            const maxInput = document.querySelector('.max-price');
+            if (minInput) minInput.value = {{ $minPrice }};
+            if (maxInput) maxInput.value = {{ $maxPrice }};
+            
+            // Clear rating checkboxes
+            document.querySelectorAll('.rating-checkbox').forEach(cb => cb.checked = false);
+            
+            // Clear availability checkboxes (uncheck both)
+            document.querySelectorAll('.availability-checkbox').forEach(cb => cb.checked = false);
+            
+            // Update filters object to default
+            filters = {
+                category_id: '',
+                min_price: {{ $minPrice }},
+                max_price: {{ $maxPrice }},
+                ratings: [],
+                availability: [],
+                page: 1
+            };
+        }
+
+        // Function to fetch all products without any filters
+        function fetchAllProducts() {
+            const container = document.getElementById('products-container');
+            const loader = document.getElementById('products-loader');
+            
+            if (loader) loader.style.display = 'block';
+            
+            // Fetch without any filters (empty parameters)
+            $.ajax({
+                url: '/filter-products',
+                method: 'GET',
+                data: {
+                    page: 1
+                    // No other parameters = fetch all products
+                },
+                success: function(response) {
+                    if (container) {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = response.html;
+                        const scripts = Array.from(tempDiv.querySelectorAll('script'));
+                        const contentNodes = Array.from(tempDiv.children).filter(child => child.tagName.toLowerCase() !== 'script');
+                        
+                        container.innerHTML = '';
+                        contentNodes.forEach(node => container.appendChild(node));
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            for (let i = 0; i < script.attributes.length; i++) {
+                                newScript.setAttribute(script.attributes[i].name, script.attributes[i].value);
+                            }
+                            newScript.innerHTML = script.innerHTML;
+                            document.body.appendChild(newScript);
+                        });
+                        
+                        container.style.display = 'block';
+                    }
+                    
+                    const productsCount = document.getElementById('products-count');
+                    if (productsCount) productsCount.textContent = response.total || 0;
+                    
+                    // Update load more button
+                    const loadMoreBtn = document.getElementById('load-more-btn');
+                    if (loadMoreBtn) {
+                        if (response.current_page < response.last_page) {
+                            loadMoreBtn.style.display = 'block';
+                            loadMoreBtn.onclick = () => fetchAllProductsPaginated(response.current_page + 1);
+                        } else {
+                            loadMoreBtn.style.display = 'none';
+                        }
+                    }
+                },
+                error: function(err) {
+                    console.error('AJAX Error:', err);
+                },
+                complete: function() {
+                    if (loader) loader.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to fetch paginated products without filters
+        function fetchAllProductsPaginated(page) {
+            // Fetch paginated products without filters
+            $.ajax({
+                url: '/filter-products',
+                method: 'GET',
+                data: { page: page },
+                success: function(response) {
+                    const container = document.getElementById('products-container');
+                    if (container && response.html) {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = response.html;
+                        const scripts = Array.from(tempDiv.querySelectorAll('script'));
+                        const contentNodes = Array.from(tempDiv.children).filter(child => child.tagName.toLowerCase() !== 'script');
+                        
+                        contentNodes.forEach(node => container.appendChild(node));
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            for (let i = 0; i < script.attributes.length; i++) {
+                                newScript.setAttribute(script.attributes[i].name, script.attributes[i].value);
+                            }
+                            newScript.innerHTML = script.innerHTML;
+                            document.body.appendChild(newScript);
+                        });
+                    }
+                    
+                    // Update load more button
+                    const loadMoreBtn = document.getElementById('load-more-btn');
+                    if (loadMoreBtn) {
+                        if (response.current_page < response.last_page) {
+                            loadMoreBtn.onclick = () => fetchAllProductsPaginated(response.current_page + 1);
+                        } else {
+                            loadMoreBtn.style.display = 'none';
+                        }
+                    }
+                }
+            });
+        }
 
         function applyFilters() {
             filters.ratings = Array.from(ratingCheckboxes)
@@ -1313,8 +1439,8 @@
 
             const minInput = document.querySelector('.min-price');
             const maxInput = document.querySelector('.max-price');
-            filters.min_price = parseFloat(minInput.value) || 0;
-            filters.max_price = parseFloat(maxInput.value) || 100;
+            filters.min_price = parseFloat(minInput.value) || {{ $minPrice }};
+            filters.max_price = parseFloat(maxInput.value) || {{ $maxPrice }};
 
             const activeCategoryLink = document.querySelector('.category-link.active');
             filters.category_id = activeCategoryLink ? activeCategoryLink.dataset.id : "";
@@ -1412,8 +1538,8 @@
             priceResetBtn.addEventListener('click', function() {
                 const minInput = document.querySelector('.min-price');
                 const maxInput = document.querySelector('.max-price');
-                if (minInput) minInput.value = 0;
-                if (maxInput) maxInput.value = 100;
+                if (minInput) minInput.value = {{ $minPrice }};
+                if (maxInput) maxInput.value = {{ $maxPrice }};
                 applyFilters();
             });
         }
@@ -1442,7 +1568,7 @@
         if (clearAvailabilityBtn) {
             clearAvailabilityBtn.addEventListener('click', function() {
                 availabilityCheckboxes.forEach(cb => {
-                    cb.checked = (cb.dataset.availability === 'in-stock');
+                    cb.checked = false;
                 });
                 applyFilters();
             });
@@ -1450,44 +1576,27 @@
 
         if (clearCategoriesBtn) {
             clearCategoriesBtn.addEventListener('click', function() {
-                document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
-                const allCategoriesLink = document.querySelector('.category-link[data-id=""]');
-                if (allCategoriesLink) allCategoriesLink.classList.add('active');
-                applyFilters();
+                resetAllFilters();
+                fetchAllProducts();
             });
         }
 
         window.addEventListener('load', () => {
-  document.querySelector('.products-grid').style.opacity = '1';
-});
-
-
-        // Initial load
-        const savedCategory = localStorage.getItem('selectedCategory');
-        if (savedCategory) {
-            document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
-            const autoLink = document.querySelector(`.category-link[data-id="${savedCategory}"]`);
-            if (autoLink) {
-                autoLink.classList.add('active');
-            } else {
-                const allCategoriesLink = document.querySelector('.category-link[data-id=""]');
-                if (allCategoriesLink) allCategoriesLink.classList.add('active');
-            }
-            localStorage.removeItem('selectedCategory');
-        }
-
-        applyFilters();
-    });
-
-    window.onload(applyFilters());
-
-    // Initialize AOS
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
+            document.querySelector('.products-grid').style.opacity = '1';
         });
-    }
+
+        // Initial load - show all products without any filters
+        resetAllFilters();
+        fetchAllProducts();
+
+        // Initialize AOS
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100
+            });
+        }
+    });
 </script>
 @endpush

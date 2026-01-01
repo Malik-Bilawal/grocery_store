@@ -453,7 +453,6 @@ $(document).ready(function () {
         }
     });
 
-    // Form field interactions
     $('.form-input').on('focus', function() {
         $(this).parent().addClass('focused');
     }).on('blur', function() {
@@ -462,7 +461,6 @@ $(document).ready(function () {
         }
     });
 
-    // Initialize progress steps
     $('.progress-step').eq(0).addClass('active');
 });
 </script>

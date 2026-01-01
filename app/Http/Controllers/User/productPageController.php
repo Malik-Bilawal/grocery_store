@@ -12,16 +12,22 @@ class productPageController extends Controller
 {
     public function index(Request $request){
 
-
-        $categories = Category::withCount(['directProducts', 'subcategoryProducts'])->where('status', 1)->get();
-
+        $priceStats = Product::toBase()
+                        ->selectRaw('min(price) as min_price, max(price) as max_price')
+                        ->first();
+    
+        $minPrice = $priceStats->min_price ?? 0;
+        $maxPrice = $priceStats->max_price ?? 0;
+    
+        $categories = Category::withCount(['directProducts', 'subcategoryProducts'])
+                        ->where('status', 1)
+                        ->get();
+    
         $products = Product::with('subcategory','images', 'sizes')->paginate(12);
         $totalProducts = Product::count();
     
-        return view('user.product', compact('products', 'categories', 'totalProducts'));
+        return view('user.product', compact('products', 'categories', 'minPrice','maxPrice','totalProducts'));
     }
-
-
 
     public function filterProducts(Request $request)
     {
