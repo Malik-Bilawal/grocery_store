@@ -91,7 +91,8 @@
             </div>
 
             @if($cart->size)
-                <p class="text-gray-600 text-sm mt-1">Size: {{ $cart->size }}</p>
+    
+            <p class="text-gray-600 text-sm mt-1">Size: {{ $cart->size * 1000 }}G</p>
             @endif
 
             <div class="flex items-center justify-between mt-4">
@@ -106,7 +107,7 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <span class="font-semibold text-[var(--accent-color)] item-total">PKR.{{ number_format($totalPrice, 2) }}</span>
+                    <span class="font-semibold text-[var(--accent-color)] item-total">PKR. {{ number_format($totalPrice, 2) }}</span>
                     <button class="text-red-500 hover:text-red-700 remove-item" data-id="{{ $cart->id }}">
     <i class="fas fa-trash-alt"></i>
 </button>

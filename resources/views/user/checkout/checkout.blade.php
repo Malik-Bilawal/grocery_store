@@ -332,7 +332,7 @@ $grandTotal = $subtotal - $discountAmount + $shipping + $tax;
                                 <i class="fas fa-truck text-[var(--primary-color)] mt-1 mr-3"></i>
                                 <div>
                                     <h4 class="font-medium text-[var(--primary-color)]">Estimated Delivery</h4>
-                                    <p class="text-sm text-[var(--primary-color)]">Tomorrow, 2:00 PM - 5:00 PM</p>
+                                    <!-- <p class="text-sm text-[var(--primary-color)]">Tomorrow, 2:00 PM - 5:00 PM</p> -->
                                 </div>
                             </div>
                         </div>
@@ -349,7 +349,7 @@ $grandTotal = $subtotal - $discountAmount + $shipping + $tax;
                         <p class="text-sm text-gray-600 mb-4">Our customer service team is available to assist you with any questions.</p>
                         <div class="flex items-center text-[var(--primary-color)]">
                             <i class="fas fa-phone-alt mr-2"></i>
-                            <span>1-800-Grocery Station One (GSO)</span>
+                            <span><a href="tel:+9231892770">+923189270460</a></span>
                         </div>
                     </div>
                 </div>
