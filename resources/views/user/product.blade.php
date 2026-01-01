@@ -1129,8 +1129,8 @@
                     </h3>
                     <div class="price-range">
                         <div class="price-inputs">
-                            <input type="number" class="price-input min-price" placeholder="Min" value="0">
-                            <input type="number" class="price-input max-price" placeholder="Max" value="100">
+                            <input type="number" class="price-input min-price" placeholder="Min" value="{{ $minPrice }}">
+                            <input type="number" class="price-input max-price" placeholder="Max" value="{{ $maxPrice}}">
                         </div>
                         <button class="filter-btn">Apply Filter</button>
                     </div>
@@ -1145,7 +1145,7 @@
                     <div class="rating-options">
                         @foreach([5,4,3,2] as $rating)
                         <label class="rating-option">
-                            <input type="checkbox" class="rating-checkbox" data-rating="{{ $rating }}">
+                            <input type="checkbox" checked class="rating-checkbox" data-rating="{{ $rating }}">
                             <div class="rating-stars">
                                 @for($i = 1; $i <= 5; $i++)
                                     <i class="{{ $i <= $rating ? 'fas' : 'far' }} fa-star"></i>
@@ -1165,7 +1165,7 @@
                     </h3>
                     <div class="availability-options">
                         <label class="availability-option">
-                            <input type="checkbox" class="availability-checkbox" checked data-availability="in-stock">
+                            <input type="checkbox" class="availability-checkbox"  data-availability="in-stock">
                             <span>In Stock</span>
                         </label>
                         <label class="availability-option">
@@ -1479,7 +1479,6 @@
         applyFilters();
     });
 
-    window.onload(applyFilters());
 
     // Initialize AOS
     if (typeof AOS !== 'undefined') {
