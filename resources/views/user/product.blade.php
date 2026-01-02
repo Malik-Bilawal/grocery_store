@@ -486,16 +486,13 @@
 }
 
 .products-grid {
-    opacity: 0;
-  }
-  
-
-/* TWO CARDS PER ROW ON DESKTOP */
-.products-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+    opacity: 1 !important; /* Force visible */
+    animation: none !important;
 }
+  
 
 .product-card {
     background: var(--white);
@@ -1021,6 +1018,8 @@
         left: -100%;
     }
 }
+
+
 </style>
 
 @push("script")
@@ -1581,13 +1580,21 @@
             });
         }
 
-        window.addEventListener('load', () => {
-            document.querySelector('.products-grid').style.opacity = '1';
-        });
+    
+        const savedCategory = localStorage.getItem('selectedCategory');
 
-        // Initial load - show all products without any filters
-        resetAllFilters();
-        fetchAllProducts();
+if (savedCategory) {
+    document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
+    const autoLink = document.querySelector(`.category-link[data-id="${savedCategory}"]`);
+    if (autoLink) autoLink.classList.add('active');
+    localStorage.removeItem('selectedCategory');
+    applyFilters(); // only this runs, no reset
+} else {
+    resetAllFilters();
+    fetchAllProducts();
+}
+
+  
 
         // Initialize AOS
         if (typeof AOS !== 'undefined') {
