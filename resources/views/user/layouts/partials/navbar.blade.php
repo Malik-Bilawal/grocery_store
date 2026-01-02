@@ -404,7 +404,7 @@
         
         <div class="flex items-center logo-div gap-4 group cursor-pointer relative z-10"> 
             
-            <img src="../loggo.png" 
+            <img src="../../loggo.png" 
                  class="w-24 h-24 object-contain max-w-none -my-8 drop-shadow-2xl hover:scale-110 transition-transform duration-300">
             
         

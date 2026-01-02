@@ -1195,7 +1195,7 @@
 
             <!-- Products Grid -->
             <main class="products-main">
-                <div class="products-header">
+                {{-- <div class="products-header">
                     <div class="products-count">
                         Showing <span id="products-count">{{ $products->count() }}</span> products
                     </div>
@@ -1207,7 +1207,7 @@
                             <i class="fas fa-list"></i>
                         </button>
                     </div>
-                </div>
+                </div> --}}
 
                 <div id="products-container" class="products-grid">
                     @include('user.components.product-cards', ['products' => $products])

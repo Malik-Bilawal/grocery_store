@@ -94,7 +94,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-7">
+                {{-- <div class="lg:col-span-7">
                     <div class="glass-panel rounded-2xl p-8 md:p-10 relative overflow-hidden group">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 transition-opacity opacity-50 group-hover:opacity-100 duration-700"></div>
 
@@ -117,7 +117,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 mb-16">
@@ -198,7 +198,7 @@
                 <i class="fas fa-envelope text-brand-accent"></i>
                 <a href="mailto:support@gso.com" 
                    class="hover:text-white transition-colors cursor-pointer">
-                    support@gso.com
+                    team@grocerystationone.com
                 </a>
             </li>
 
