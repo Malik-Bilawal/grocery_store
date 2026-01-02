@@ -486,13 +486,16 @@
 }
 
 .products-grid {
+    opacity: 0;
+  }
+  
+
+/* TWO CARDS PER ROW ON DESKTOP */
+.products-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
-    opacity: 1 !important; /* Force visible */
-    animation: none !important;
 }
-  
 
 .product-card {
     background: var(--white);
@@ -1018,8 +1021,6 @@
         left: -100%;
     }
 }
-
-
 </style>
 
 @push("script")
@@ -1128,8 +1129,8 @@
                     </h3>
                     <div class="price-range">
                         <div class="price-inputs">
-                            <input type="number" class="price-input min-price" placeholder="Min" value="0">
-                            <input type="number" class="price-input max-price" placeholder="Max" value="100">
+                            <input type="number" class="price-input min-price" placeholder="Min" value="{{ $minPrice }}">
+                            <input type="number" class="price-input max-price" placeholder="Max" value="{{ $maxPrice }}">
                         </div>
                         <button class="filter-btn">Apply Filter</button>
                     </div>
@@ -1580,21 +1581,25 @@
             });
         }
 
-    
+        window.addEventListener('load', () => {
+            document.querySelector('.products-grid').style.opacity = '1';
+        });
+
         const savedCategory = localStorage.getItem('selectedCategory');
 
 if (savedCategory) {
+    // Apply saved category filter
     document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
     const autoLink = document.querySelector(`.category-link[data-id="${savedCategory}"]`);
     if (autoLink) autoLink.classList.add('active');
     localStorage.removeItem('selectedCategory');
     applyFilters(); // only this runs, no reset
 } else {
+    // No saved category → show all products
     resetAllFilters();
     fetchAllProducts();
 }
-
-  
+      
 
         // Initialize AOS
         if (typeof AOS !== 'undefined') {
