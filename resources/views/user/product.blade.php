@@ -2,7 +2,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Grocery Station One | Products </title>
-
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
   /* CSS Variables */
@@ -1021,6 +1023,21 @@
         left: -100%;
     }
 }
+
+    #products-container.loading {
+        visibility: hidden;
+    }
+
+    #products-loader {
+        position: absolute;
+        inset: 0;
+        background: rgba(255,255,255,0.9);
+        z-index: 20;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
 </style>
 
 @push("script")
@@ -1196,6 +1213,7 @@
                     @include('user.components.product-cards', ['products' => $products])
                 </div>
 
+
                 <!-- Loader -->
                 <div id="products-loader" style="display: none;">
                     <div class="loader"></div>
@@ -1215,9 +1233,7 @@
 @endsection
 
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1301,7 +1317,6 @@
 
         // Function to reset all filters to default state
         function resetAllFilters() {
-            // Clear all category selections
             document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
             const allCategoriesLink = document.querySelector('.category-link[data-id=""]');
             if (allCategoriesLink) allCategoriesLink.classList.add('active');
