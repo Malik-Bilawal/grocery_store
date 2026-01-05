@@ -64,9 +64,29 @@ public function store(Request $request)
         'additional_images.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
     ]);
     
+    $category = Category::find($request->category_id);
+    
+    $catName = $category->name;
+    $prefix = strtoupper(substr($catName, 0, 1) . substr($catName, -1));
+
+
+    $latestProduct = Product::where('sku', 'LIKE', "{$prefix}-%")
+                            ->orderBy('id', 'desc')
+                            ->first();
+
+    if ($latestProduct) {
+        $parts = explode('-', $latestProduct->sku);
+        $number = intval(end($parts)) + 1;
+    } else {
+        $number = 1;
+    }
+
+    $generatedSku = "{$prefix}-{$number}";
+
     $product = Product::create([
         'name' => $request->name,
         'slug' => Str::slug($request->name),
+        'sku'  => $generatedSku,
         'description' => $request->description,
         'price' => $request->price,
         'offer_price' => $request->offer_price,
@@ -164,11 +184,36 @@ public function update(Request $request, $id)
 
     ]);
 
+    $sku = $product->sku; 
+
+
+    if ($request->category_id != $product->category_id || empty($product->sku)) {
+        
+        $category = Category::find($request->category_id);
+        
+        $catName = $category->name;
+        $prefix = strtoupper(substr($catName, 0, 1) . substr($catName, -1));
+
+        $latestProduct = Product::where('sku', 'LIKE', "{$prefix}-%")
+                                ->where('id', '!=', $product->id) 
+                                ->orderBy('id', 'desc')
+                                ->first();
+
+        if ($latestProduct) {
+            $parts = explode('-', $latestProduct->sku);
+            $number = intval(end($parts)) + 1;
+        } else {
+            $number = 1;
+        }
+
+        $sku = "{$prefix}-{$number}";
+    }
     $product->update([
         'name' => $request->name,
         'slug' => Str::slug($request->name),
         'description' => $request->description,
         'price' => $request->price,
+        'sku'  => $sku, 
         'offer_price' => $request->offer_price,
         'stock' => $request->stock,
         'rating' => $request->rating,

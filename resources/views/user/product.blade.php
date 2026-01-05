@@ -7,7 +7,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
-  /* CSS Variables */
 
 
 
@@ -1038,15 +1037,88 @@
         justify-content: center;
     }
 
+    /* Preloader Container */
+#modern-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* Or your theme background color */
+    z-index: 99999; /* Stays on top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+}
+
+/* The Spinner Content Wrapper */
+.loader-content {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+/* Dual Rings Animation */
+.spinner-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #333; /* Main Brand Color */
+}
+
+.spinner-ring:nth-child(1) {
+    animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.spinner-ring:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border-top-color: #888; /* Secondary Color */
+    animation: spin-reverse 1.2s linear infinite;
+}
+
+/* Optional Loading Text */
+.loader-text {
+    position: absolute;
+    top: 120%;
+    width: 100%;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
 </style>
 
 @push("script")
-<!-- Bootstrap 5 JS (with Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @endpush
 
 @push("style")
-<!-- Bootstrap 5 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/product.css') }}">
 
@@ -1054,6 +1126,16 @@
 
 @section('content')
 <div class="bodyy">
+
+<div id="modern-preloader">
+    <div class="loader-content">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="loader-text">Loading...</div>
+    </div>
+</div>
+
+
     <!-- Hero Section -->
     <section class="relative overflow-hidden py-28 bg-gradient-to-br from-[var(--primary-color)] via-[var(--secondary-color)] to-orange-500 text-white rounded-t-[16px] md:rounded-t-[24px]">
         <div class="absolute inset-0 bg-black/30 mix-blend-multiply"></div>
@@ -1208,6 +1290,7 @@
                         </button>
                     </div>
                 </div>
+                
 
                 <div id="products-container" class="products-grid">
                     @include('user.components.product-cards', ['products' => $products])
@@ -1237,6 +1320,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. UI Elements & Event Listeners ---
         const filterToggleBtn = document.getElementById('filter-toggle-btn');
         const filterDrawer = document.getElementById('filter-drawer');
         const filterOverlay = document.getElementById('filter-overlay');
@@ -1250,7 +1334,6 @@
             });
         }
 
-        // Close filter drawer
         if (closeFilterDrawer) {
             closeFilterDrawer.addEventListener('click', closeFilterDrawerHandler);
         }
@@ -1265,14 +1348,12 @@
             document.body.style.overflow = '';
         }
 
-        // Close drawer on escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeFilterDrawerHandler();
             }
         });
 
-        // View options toggle
         const viewButtons = document.querySelectorAll('.view-btn');
         viewButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -1294,7 +1375,7 @@
             });
         });
 
-        // Filter functionality
+        // --- 2. Filter Variables & Helpers ---
         const container = document.getElementById('products-container');
         if (!container) return;
 
@@ -1311,29 +1392,40 @@
             min_price: {{ $minPrice }},
             max_price: {{ $maxPrice }},
             ratings: [],
-            availability: [],  // Empty array means no availability filter
+            availability: [],
             page: 1
         };
 
-        // Function to reset all filters to default state
+        function hideMainPreloader() {
+            const preloader = document.getElementById('modern-preloader');
+            const productGrid = document.querySelector('.products-grid');
+
+            if (productGrid) {
+                productGrid.style.opacity = '1';
+            }
+
+            if (preloader) {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+                setTimeout(() => {
+                    preloader.remove();
+                }, 600);
+            }
+        }
+
         function resetAllFilters() {
             document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
             const allCategoriesLink = document.querySelector('.category-link[data-id=""]');
             if (allCategoriesLink) allCategoriesLink.classList.add('active');
-            
-            // Reset price to min/max from server
+
             const minInput = document.querySelector('.min-price');
             const maxInput = document.querySelector('.max-price');
             if (minInput) minInput.value = {{ $minPrice }};
             if (maxInput) maxInput.value = {{ $maxPrice }};
-            
-            // Clear rating checkboxes
+
             document.querySelectorAll('.rating-checkbox').forEach(cb => cb.checked = false);
-            
-            // Clear availability checkboxes (uncheck both)
             document.querySelectorAll('.availability-checkbox').forEach(cb => cb.checked = false);
-            
-            // Update filters object to default
+
             filters = {
                 category_id: '',
                 min_price: {{ $minPrice }},
@@ -1344,20 +1436,21 @@
             };
         }
 
-        // Function to fetch all products without any filters
+
         function fetchAllProducts() {
             const container = document.getElementById('products-container');
             const loader = document.getElementById('products-loader');
-            
-            if (loader) loader.style.display = 'block';
-            
-            // Fetch without any filters (empty parameters)
+            const mainPreloader = document.getElementById('modern-preloader');
+
+            if (loader && !mainPreloader) {
+                loader.style.display = 'block';
+            }
+
             $.ajax({
                 url: '/filter-products',
                 method: 'GET',
                 data: {
                     page: 1
-                    // No other parameters = fetch all products
                 },
                 success: function(response) {
                     if (container) {
@@ -1365,7 +1458,7 @@
                         tempDiv.innerHTML = response.html;
                         const scripts = Array.from(tempDiv.querySelectorAll('script'));
                         const contentNodes = Array.from(tempDiv.children).filter(child => child.tagName.toLowerCase() !== 'script');
-                        
+
                         container.innerHTML = '';
                         contentNodes.forEach(node => container.appendChild(node));
                         scripts.forEach(script => {
@@ -1376,14 +1469,13 @@
                             newScript.innerHTML = script.innerHTML;
                             document.body.appendChild(newScript);
                         });
-                        
+
                         container.style.display = 'block';
                     }
-                    
+
                     const productsCount = document.getElementById('products-count');
                     if (productsCount) productsCount.textContent = response.total || 0;
-                    
-                    // Update load more button
+
                     const loadMoreBtn = document.getElementById('load-more-btn');
                     if (loadMoreBtn) {
                         if (response.current_page < response.last_page) {
@@ -1393,9 +1485,12 @@
                             loadMoreBtn.style.display = 'none';
                         }
                     }
+
+                    hideMainPreloader();
                 },
                 error: function(err) {
                     console.error('AJAX Error:', err);
+                    hideMainPreloader();
                 },
                 complete: function() {
                     if (loader) loader.style.display = 'none';
@@ -1403,13 +1498,13 @@
             });
         }
 
-        // Function to fetch paginated products without filters
         function fetchAllProductsPaginated(page) {
-            // Fetch paginated products without filters
             $.ajax({
                 url: '/filter-products',
                 method: 'GET',
-                data: { page: page },
+                data: {
+                    page: page
+                },
                 success: function(response) {
                     const container = document.getElementById('products-container');
                     if (container && response.html) {
@@ -1417,7 +1512,7 @@
                         tempDiv.innerHTML = response.html;
                         const scripts = Array.from(tempDiv.querySelectorAll('script'));
                         const contentNodes = Array.from(tempDiv.children).filter(child => child.tagName.toLowerCase() !== 'script');
-                        
+
                         contentNodes.forEach(node => container.appendChild(node));
                         scripts.forEach(script => {
                             const newScript = document.createElement('script');
@@ -1428,8 +1523,7 @@
                             document.body.appendChild(newScript);
                         });
                     }
-                    
-                    // Update load more button
+
                     const loadMoreBtn = document.getElementById('load-more-btn');
                     if (loadMoreBtn) {
                         if (response.current_page < response.last_page) {
@@ -1463,52 +1557,53 @@
             fetchFilteredProducts(filters, 1);
         }
 
-        function fetchFilteredProducts(filters, page = 1) {
-            filters.page = page;
-
+        function fetchFilteredProducts(filters, page) {
             const container = document.getElementById('products-container');
             const loader = document.getElementById('products-loader');
-            const loadMoreBtn = document.getElementById('load-more-btn');
+            const mainPreloader = document.getElementById('modern-preloader');
 
-            if (loader) loader.style.display = 'block';
-            if (page === 1 && container) container.style.display = 'none';
-            if (page > 1 && loadMoreBtn) loadMoreBtn.style.display = 'none';
+            if (loader && !mainPreloader) {
+                loader.style.display = 'block';
+            }
+
+            const requestData = {
+                category_id: filters.category_id,
+                min_price: filters.min_price,
+                max_price: filters.max_price,
+                ratings: filters.ratings,
+                availability: filters.availability,
+                page: page
+            };
 
             $.ajax({
                 url: '/filter-products',
                 method: 'GET',
-                data: filters,
+                data: requestData,
                 success: function(response) {
-                    if (page === 1 && response.total === 0) {
-                        if (container) {
-                            container.innerHTML = '<p class="text-center" style="margin: 20px;">No products found matching your criteria.</p>';
-                            container.style.display = 'block';
-                        }
-                        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
-                        const productsCount = document.getElementById('products-count');
-                        if (productsCount) productsCount.textContent = 0;
-                        return;
+                    if (container) {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = response.html;
+                        const scripts = Array.from(tempDiv.querySelectorAll('script'));
+                        const contentNodes = Array.from(tempDiv.children).filter(child => child.tagName.toLowerCase() !== 'script');
+
+                        container.innerHTML = '';
+                        contentNodes.forEach(node => container.appendChild(node));
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            for (let i = 0; i < script.attributes.length; i++) {
+                                newScript.setAttribute(script.attributes[i].name, script.attributes[i].value);
+                            }
+                            newScript.innerHTML = script.innerHTML;
+                            document.body.appendChild(newScript);
+                        });
+
+                        container.style.display = 'block';
                     }
 
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = response.html;
-                    const scripts = Array.from(tempDiv.querySelectorAll('script'));
-                    const contentNodes = Array.from(tempDiv.children).filter(child => child.tagName.toLowerCase() !== 'script');
+                    const productsCount = document.getElementById('products-count');
+                    if (productsCount) productsCount.textContent = response.total || 0;
 
-                    const reinsertScript = (script) => {
-                        const newScript = document.createElement('script');
-                        for (let i = 0; i < script.attributes.length; i++) {
-                            newScript.setAttribute(script.attributes[i].name, script.attributes[i].value);
-                        }
-                        newScript.innerHTML = script.innerHTML;
-                        document.body.appendChild(newScript);
-                    };
-
-                    if (page === 1) container.innerHTML = '';
-                    contentNodes.forEach(node => container.appendChild(node));
-                    scripts.forEach(script => reinsertScript(script));
-
-                    if (container) container.style.display = 'block';
+                    const loadMoreBtn = document.getElementById('load-more-btn');
                     if (loadMoreBtn) {
                         if (response.current_page < response.last_page) {
                             loadMoreBtn.style.display = 'block';
@@ -1518,20 +1613,11 @@
                         }
                     }
 
-                    const productsCount = document.getElementById('products-count');
-                    if (productsCount) productsCount.textContent = response.total || 0;
-
-                    // Close filter drawer after applying filters on mobile
-                    if (window.innerWidth < 768) {
-                        closeFilterDrawerHandler();
-                    }
+                    hideMainPreloader();
                 },
                 error: function(err) {
                     console.error('AJAX Error:', err);
-                    if (container) {
-                        container.innerHTML = '<p class="text-center text-danger">Error loading products.</p>';
-                        container.style.display = 'block';
-                    }
+                    hideMainPreloader();
                 },
                 complete: function() {
                     if (loader) loader.style.display = 'none';
@@ -1539,7 +1625,8 @@
             });
         }
 
-        // Event Listeners
+
+
         document.querySelectorAll('.category-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1596,27 +1683,20 @@
             });
         }
 
-        window.addEventListener('load', () => {
-            document.querySelector('.products-grid').style.opacity = '1';
-        });
 
         const savedCategory = localStorage.getItem('selectedCategory');
 
-if (savedCategory) {
-    // Apply saved category filter
-    document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
-    const autoLink = document.querySelector(`.category-link[data-id="${savedCategory}"]`);
-    if (autoLink) autoLink.classList.add('active');
-    localStorage.removeItem('selectedCategory');
-    applyFilters(); // only this runs, no reset
-} else {
-    // No saved category → show all products
-    resetAllFilters();
-    fetchAllProducts();
-}
-      
+        if (savedCategory) {
+            document.querySelectorAll('.category-link').forEach(item => item.classList.remove('active'));
+            const autoLink = document.querySelector(`.category-link[data-id="${savedCategory}"]`);
+            if (autoLink) autoLink.classList.add('active');
+            localStorage.removeItem('selectedCategory');
+            applyFilters();
+        } else {
+            resetAllFilters();
+            fetchAllProducts();
+        }
 
-        // Initialize AOS
         if (typeof AOS !== 'undefined') {
             AOS.init({
                 duration: 800,

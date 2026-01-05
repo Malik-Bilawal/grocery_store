@@ -157,11 +157,9 @@
     .size-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
 </style>
 
-{{-- JAVASCRIPT LOGIC --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- 1. HANDLE SHARE BUTTON ---
     document.body.addEventListener('click', function(e) {
         const btn = e.target.closest('.share-btn');
         if (!btn) return;
@@ -195,56 +193,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- 2. HANDLE SIZE SELECTION ---
     document.body.addEventListener('click', function(e) {
         const sizeBtn = e.target.closest('.size-btn');
         if (!sizeBtn) return;
         e.preventDefault();
 
-        // 1. Get Data
         const newPrice = sizeBtn.dataset.price;
         const newWeight = sizeBtn.dataset.weight;
 
         if(newPrice) {
             const card = sizeBtn.closest('.card');
             
-            // 2. Update Visual Price
             const priceDisplay = card.querySelector('.dynamic-price');
             if(priceDisplay) priceDisplay.textContent = newPrice;
 
-            // 3. Highlight Button
             const allSizes = card.querySelectorAll('.size-btn');
             allSizes.forEach(btn => btn.classList.remove('active'));
             sizeBtn.classList.add('active');
 
-            // 4. CRITICAL: Update the 'Buy Now' button data
             const buyNowBtn = card.querySelector('.buy-now-btn');
             if(buyNowBtn) {
                 buyNowBtn.dataset.price = newPrice;
                 buyNowBtn.dataset.weight = newWeight;
-                buyNowBtn.removeAttribute('disabled'); // Enable button
+                buyNowBtn.removeAttribute('disabled'); 
             }
         }
     });
 
-    // --- 3. HANDLE BUY NOW CLICK (FETCH API) ---
     document.body.addEventListener('click', async function(e) {
-        // Only run if the clicked element (or its parent) has class 'buy-now-btn'
         const btn = e.target.closest('.buy-now-btn');
         if (!btn) return;
         
         e.preventDefault();
 
-        // Check if disabled (if user hacked HTML to remove disabled attribute)
         if(btn.hasAttribute('disabled')) return;
 
-        // 1. Get current data from the button (which might have been updated by size click)
         const productId = btn.dataset.productId;
         const price = btn.dataset.price;
         const weight = btn.dataset.weight;
         const quantity = 1;
 
-        // 2. Prepare Payload
         const payload = {
             product_id: productId,
             price: price,
@@ -252,13 +240,10 @@ document.addEventListener('DOMContentLoaded', function() {
             quantity: quantity
         };
 
-        // 3. Get CSRF Token
         const csrfMeta = document.querySelector('meta[name="csrf-token"]');
         const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
 
-        // 4. Send Request
         try {
-            // Visual feedback: Loading state
             const originalContent = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
@@ -288,12 +273,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: 'Oops...',
                 text: error.message || 'Something went wrong!',
             });
-            // Reset button
             btn.innerHTML = 'Buy Now';
             btn.disabled = false;
         }
 
-                   // Reset button
                    btn.innerHTML = 'Buy Now';
             btn.disabled = false;
     });

@@ -28,63 +28,39 @@ class productPageController extends Controller
     
         return view('user.product', compact('products', 'categories', 'minPrice','maxPrice','totalProducts'));
     }
-
     public function filterProducts(Request $request)
     {
-        Log::info('Filter Products Request:', $request->all());
-    
         $query = Product::query();
     
-        // Category filter
-        if ($request->has('category_id') && $request->category_id !== null) {
+        if ($request->filled('category_id')) {
             Log::info('Applying category filter with category_id: ' . $request->category_id);
             $query->where('category_id', $request->category_id);
-        } else {
-            Log::info('No category filter applied.');
         }
     
-        // Price filter
-        if ($request->has('min_price') && $request->has('max_price')) {
-            Log::info('Applying price filter with min_price: ' . $request->min_price . ' and max_price: ' . $request->max_price);
+        if ($request->filled('min_price') && $request->filled('max_price')) {
             $query->whereBetween('price', [$request->min_price, $request->max_price]);
         }
     
-        // Rating filter
-        if ($request->has('ratings') && count($request->ratings) > 0) {
-            Log::info('Applying rating filter with ratings: ' . implode(',', $request->ratings));
-            $query->whereIn('rating', $request->ratings);
-        } else {
-            Log::info('No rating filter applied.');
+        if ($request->filled('ratings')) {
+            $query->where('rating', $request->ratings);
         }
     
-        // Availability filter
-        // We include all products, but mark out-of-stock products for the red tag
-        if ($request->has('availability') && in_array('In Stock', $request->availability)) {
-            Log::info('User wants to show only in-stock items. We can filter here if needed.');
-            // Optional: filter if required
-            // $query->where('stock', '>', 0);
-        } else {
-            Log::info('Including out-of-stock items as well.');
+        if ($request->filled('availability') && in_array('In Stock', (array) $request->availability)) {
         }
     
-        $perPage = 12; // Number of products per page
+        $perPage = 12;
         $page = $request->get('page', 1);
-        
-        $products = $query->paginate($perPage, ['*'], 'page', $page);    
-        // Render Blade partial with products
-        $html = view('user.components.product-cards', compact('products'))->render();
+        $products = $query->paginate($perPage, ['*'], 'page', $page);
     
-        Log::info('Number of products returned after filters: ' . $products->count());
+        // Render HTML
+        $html = view('user.components.product-cards', compact('products'))->render();
     
         return response()->json([
             'html' => $html,
             'count' => $products->total(),
             'last_page' => $products->lastPage(),
-            'current_page' => $products->currentPage()
+            'current_page' => $products->currentPage(),
         ]);
-        
     }
-    
-    
-    
+
 }
