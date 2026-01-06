@@ -25,8 +25,7 @@
 @endpush
 
 @section("content")
-<!-- Root wrapper with Alpine state -->
-<!-- Root wrapper with Alpine state -->
+
 <div 
     x-data="{ sidebarOpen: false }" 
     @close-sidebar.window="sidebarOpen = false" 
